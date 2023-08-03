@@ -7,11 +7,14 @@ import { StorageService } from 'src/app/services/storage.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/dashboard/models/user.model';
 import { Role } from 'src/app/dashboard/models/role.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseService<Auth> {
+
+  public AuthUser: BehaviorSubject<User| any> = new BehaviorSubject(null);
 
   constructor(protected http: HttpClient,private storage: StorageService,private router: Router) {
     super();
@@ -52,6 +55,7 @@ export class AuthService extends BaseService<Auth> {
   }
 
   getUser(){
+    this.AuthUser.next(this.storage.read<User>('user'));
     return this.storage.read<User>('user');
   }
 

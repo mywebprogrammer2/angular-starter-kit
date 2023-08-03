@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable, throwError  } from 'rxjs';
+import { BehaviorSubject, Observable, throwError  } from 'rxjs';
 import { catchError,map  } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -12,7 +12,7 @@ export abstract class BaseService<T> {
   protected apiUrl: string =  environment.apiBaseUrl;
   protected abstract http: HttpClient; // API base URL
   protected data: T[] = [];
-  public getData = new EventEmitter<T[]>();
+  public getData: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
 
   constructor() {}
 
@@ -132,14 +132,20 @@ export abstract class BaseService<T> {
   }
 
   // Perform a file upload with multiple files or fields
-  uploadFile<T>(url: string, files: File[], fields?: { [key: string]: any }): Observable<T> {
+  uploadFile<T>(
+    url: string,
+    files: File[],
+    fields?: { [key: string]: any },
+    fileNames?: string[] ,
+  ): Observable<T> {
     const fullUrl = `${this.apiUrl}/${url}`;
 
     const formData: FormData = new FormData();
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        formData.append(`file${i + 1}`, files[i]);
+        const fileName = fileNames && fileNames[i] ? fileNames[i] : `file${i + 1}`;
+        formData.append(fileName, files[i]);
       }
     }
 
@@ -153,7 +159,7 @@ export abstract class BaseService<T> {
       map(response => this.extractData<T>(response)),
       catchError(this.handleError)
     );
-}
+  }
 
   deleteLocally(item: T) {
     const index = this.data.indexOf(item);

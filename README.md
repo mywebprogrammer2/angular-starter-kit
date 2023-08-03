@@ -50,6 +50,49 @@ To get started with this boilerplate project, follow these steps:
 
    The application will be available at `http://localhost:4200/`.
 
+## Backend Details
+
+**Laravel Backend Integration:**
+
+- Laravel 8.x
+- RESTful API endpoints for data interaction
+- Authentication and Authorization with Laravel Sanctum
+
+**Laravel Prerequisites:**
+
+Before you begin, ensure you have met the following requirements:
+
+- PHP: 8.1
+- Composer: 2.2.18
+- Database: MySQL 8.x
+
+**Getting Started:**
+
+To get started with this boilerplate project, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone [repository-url]
+   ```
+
+2. Install the dependencies:
+
+   ```bash
+   cd laravel-boilerplate
+   composer install
+   php artisan migrate
+   ```
+
+3. Start the development server:
+
+   ```
+   php artisan serve
+   ```
+
+   The application will be available at `http://localhost:8000/`.
+
+
 ## Folder Structure
 
 The folder structure of this boilerplate project is organized as follows:
@@ -182,7 +225,7 @@ To deploy the Angular project, follow these steps:
   ```
 
 ## Screenshots
-### lOGIN
+### LOGIN
 ![Alt text](./src/assets/images/screenshots/login-screen.png?raw=true "Login Screen")
 
 ### REGISTER
